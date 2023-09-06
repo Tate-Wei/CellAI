@@ -1,0 +1,157 @@
+{% extends 'main_page/mp_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#page-top"><img src="{% static 'main_page/assets/img/Logo_of_the_Technical_University_of_Munich.svg' %}" alt="..." /></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars ms-1"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/main_page/">Results</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Functions-->
+    <section class="page-section bg-light" id="portfolio">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Settings</h2>
+                <h3 class="section-subheading text-muted"> </h3>
+            </div>
+            <div class="row text-left">
+                <form method="post" action="/save/">
+                    {% csrf_token %}
+                    <div class="container" style="padding-left: 15rem; padding-right: 15rem;">
+                        <!-- Phase or amplitude-->
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <label for="mode" class="form-label" style="margin-left: 12px;">Classification Mode</label>
+                            </div>
+                            <div class="col-md-8"></div>
+                        </div>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <select class="form-select" id="mode" name="mode" style="height: 100%;">
+                                <option value="ph" {% if mode == "ph" %}selected{% endif %}>Phase</option>
+                                <option value="amp" {% if mode == "amp" %}selected{% endif %}>Amplitude</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="text-muted" style="margin-bottom: 0px;">Please select the input type for the cell classification.</p>
+                            </div>
+                        </div>
+                        <!-- Segmentation-->
+                        <div class="container" style="height: 2rem;"></div>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <label for="seg" class="form-label" style="margin-left: 12px;">Segmentation Mode</label>
+                            </div>
+                            <div class="col-md-8"></div>
+                        </div>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <select class="form-select" id="seg" name="seg" style="height: 100%;">
+                                <option value="lo" {% if seg == "lo" %}selected{% endif %}>Loose</option>
+                                <option value="mi" {% if seg == "mi" %}selected{% endif %}>Appropriate</option>
+                                <option value="hi" {% if seg == "hi" %}selected{% endif %}>Strict</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="text-muted" style="margin-bottom: 0px;">Loose segmentation mode could introduce noise to the image. Strict segmentation mode avoids image noise but may lose some details.</p>
+                            </div>
+                        </div>
+                        <!-- Learning rate-->
+                        <div class="container" style="height: 2rem;"></div>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <label for="lr" class="form-label" style="margin-left: 12px;">Learning Rate</label>
+                            </div>
+                            <div class="col-md-8"></div>
+                        </div>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <select class="form-select" id="lr" name="lr" style="height: 100%;">
+                                <option value="0.001" {% if lr == "0.001" %}selected{% endif %}>1e-3</option>  
+                                <option value="0.0005" {% if lr == "0.0005" %}selected{% endif %}>5e-4</option>
+                                <option value="0.0001" {% if lr == "0.0001" %}selected{% endif %}>1e-4</option>
+                                <option value="0.00005" {% if lr == "0.0005" %}selected{% endif %}>5e-5</option>
+                                <option value="0.00001" {% if lr == "0.0001" %}selected{% endif %}>1e-5</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="text-muted" style="margin-bottom: 0px;">Learning rate affects the convergence and performance of the model.</p>
+                            </div>
+                        </div>
+                        <!-- Epoch-->
+                        <div class="container" style="height: 2rem;"></div>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <label for="ep" class="form-label" style="margin-left: 12px;">Epoch</label>
+                            </div>
+                            <div class="col-md-8"></div>
+                        </div>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <select class="form-select" id="ep" name="ep" style="height: 100%;">
+                                <option value="10" {% if ep == "10" %}selected{% endif %}>10</option>
+                                <option value="30" {% if ep == "30" %}selected{% endif %}>30</option>
+                                <option value="70" {% if ep == "70" %}selected{% endif %}>70</option>
+                                <option value="100" {% if ep == "100" %}selected{% endif %}>100</option>
+                                <option value="150" {% if ep == "150" %}selected{% endif %}>150</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="text-muted" style="margin-bottom: 0px;">The number of epoch affects the training time and the performance of the model. The model will be saved after determining the best validation result throughout the training process.</p>
+                            </div>
+                        </div>
+                        <!-- Prediction num-->
+                        <div class="container" style="height: 2rem;"></div>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <label for="pre" class="form-label" style="margin-left: 12px;">Sample Limitation</label>
+                            </div>
+                            <div class="col-md-8"></div>
+                        </div>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                <select class="form-select" id="pre" name="pre" style="height: 100%;">
+                                <option value="20" {% if pre == "20" %}selected{% endif %}>20</option>
+                                <option value="50" {% if pre == "50" %}selected{% endif %}>50</option>
+                                <option value="100" {% if pre == "100" %}selected{% endif %}>100</option>
+                                <option value="200" {% if pre == "200" %}selected{% endif %}>200</option>
+                                <option value="300" {% if pre == "300" %}selected{% endif %}>300</option>
+                                <option value="500" {% if pre == "500" %}selected{% endif %}>500</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="text-muted" style="margin-bottom: 0px;">Please select how many samples provided in the dataset should be predicted. Note that one sample may contains a lot of single cells, which requires more prediction time.</p>
+                            </div>
+                        </div>
+
+                        <div class="container" style="height: 4rem;"></div>
+                        <div class="row text-center d-flex justify-content-center">
+                            <button class="btn btn-primary" style="width: 10rem;">SAVE</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-start">Copyright &copy; AMI 2023 Group 02</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+{% endblock  %}

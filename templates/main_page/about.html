@@ -1,0 +1,203 @@
+{% extends 'main_page/mp_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#page-top"><img src="{% static 'main_page/assets/img/Logo_of_the_Technical_University_of_Munich.svg' %}" alt="..." /></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars ms-1"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/main_page/">Results</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#portfolio">Functions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#Pipeline">Pipeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Masthead-->
+    <header class="h-masthead">
+        <!-- Background Video-->
+        <script src="{% static 'home/js/scripts.js' %}"></script>
+        <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="{% static 'home/assets/mp4/cell.mov' %}" type="video/mp4" /></video>
+        <!-- Masthead-->
+        <div class="masthead">
+            <div class="masthead-content text-white">
+                <div class="container-fluid px-4 px-lg-0">
+                    <h1 class="fst-italic lh-1 mb-4">CellAI<br>Explore the Future of Blood Cell Prediction</h1>
+                    <p class="mb-5">Revolutionizing healthcare with our AI-driven cell recognition tool, enhancing diagnostic accuracy for medical professionals.</p>
+                    <a class="btn btn-primary btn-xl text-uppercase" href="#portfolio">Discover Now</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Functions-->
+    <section class="page-section bg-light" id="portfolio">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Functions</h2>
+                <h3 class="section-subheading text-muted"> </h3>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa-solid fa-scissors fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="my-3">Segmentation</h4>
+                    <p class="text-muted">Our advanced software leverages the power of OpenCV to automatically and accurately segment blood cell images, enabling precise identification and analysis.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa-solid fa-code-fork fa-stack-1x fa-inverse fa-flip-vertical"></i>
+                    </span>
+                    <h4 class="my-3">Classification</h4>
+                    <p class="text-muted">Experience state-of-the-art classification capabilities as our software employs a fine-tuned VGG-16 model, providing unparalleled accuracy in identifying various blood cell types.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa-sharp fa-light fa-user-graduate fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="my-3">Active Learning</h4>
+                    <p class="text-muted">Harness the power of active learning with our web interface, allowing users to correct and refine wrong predicted labels.</p>
+                </div>
+            </div>
+        </div>
+    <!-- Pipeline-->
+    <section class="page-section bg-light" id="Pipeline">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Pipeline</h2>
+                <h3 class="section-subheading text-muted"> </h3>
+            </div>
+            <ul class="timeline">
+                <li>
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="{% static 'main_page/assets/img/pipeline/1.png' %}" alt="..." /></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="subheading">Training with Weighted Sampler</h4>
+                        </div>
+                        <div class="timeline-body"><p class="text-muted">Our software initiates the journey by training on a labeled dataset of 111 samples. To address dataset imbalances, we employ a sophisticated weighted sampler that calculates class weights.</p></div>
+                    </div>
+                </li>
+                <li class="timeline-inverted">
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="{% static 'main_page/assets/img/pipeline/2.png' %}" alt="..." /></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="subheading">Uncertainty-Driven Predictions</h4>
+                        </div>
+                        <div class="timeline-body"><p class="text-muted">Step into the world of predictive certainty as our software generates accurate predictions. Leveraging the power of entropy, we employ a cutting-edge technique of 10 times forward propagation with random dropout (Monte-Carlo dropout) to provide robust and reliable predictions.</p></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="{% static 'main_page/assets/img/pipeline/3.png' %}" alt="..." /></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="subheading">Insights Unveiled with Grad-CAM</h4>
+                        </div>
+                        <div class="timeline-body"><p class="text-muted">Unleash the potential of model explanation and visualization with Grad-CAM (Gradient-weighted Class Activation Mapping). Witness the inner workings of the model as we offer intuitive insights into its decision-making process, providing you with a deeper understanding of the predictions.</p></div>
+                    </div>
+                </li>
+                <li class="timeline-inverted">
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="{% static 'main_page/assets/img/pipeline/4.png' %}" alt="..." /></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="subheading">Empowering User Correction and Model Refinement</h4>
+                        </div>
+                        <div class="timeline-body"><p class="text-muted">Take the reins of model improvement into your hands with our web interface. Correct mispredicted data points, and through your inputs, fine-tune the model. Our software seamlessly integrates user-corrected labels, ensuring constant evolution and enhanced accuracy.</p></div>
+                    </div>
+                </li>
+                <li class="timeline-inverted">
+                    <div class="timeline-image">
+                        <h4>
+                            Be Part
+                            <br />
+                            Of Our
+                            <br />
+                            Story!
+                        </h4>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <!-- Team-->
+    <section class="page-section bg-light" id="team">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Our Amazing Team</h2>
+                <h3 class="section-subheading text-muted">We are Group 02! </h3>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="{% static 'main_page/assets/img/team/huixu.jpg' %}" alt="..." />
+                        <h4>Huixu Liu</h4>
+                        <p class="text-muted">Deployment</p>
+                        <div class="btn btn-dark btn-social mx-2" aria-label="Email"><i class="fa-solid fa-envelope"></i></div>huixu.liu@tum.de
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="{% static 'main_page/assets/img/team/lei.jpg' %}" alt="..." />
+                        <h4>Lei Zhang</h4>
+                        <p class="text-muted">Active Learning</p>
+                        <div class="btn btn-dark btn-social mx-2" aria-label="Email"><i class="fa-solid fa-envelope"></i></div>lei99.zhang@tum.de
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="{% static 'main_page/assets/img/team/linghui.jpg' %}" alt="..." />
+                        <h4>Linghui Liu</h4>
+                        <p class="text-muted">Web Interface</p>
+                        <div class="btn btn-dark btn-social mx-2" aria-label="Email"><i class="fa-solid fa-envelope"></i></div>linghui.liu@tum.de
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="{% static 'main_page/assets/img/team/Mengqi.jpg' %}" alt="..." />
+                        <h4>Mengqi Wei</h4>
+                        <p class="text-muted">Classification(DL-based Methods)</p>
+                        <div class="btn btn-dark btn-social mx-2" aria-label="Email"><i class="fa-solid fa-envelope"></i></div>mengqi.wei@tum.de
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="{% static 'main_page/assets/img/team/yinjia.jpg' %}" alt="..." />
+                        <h4>Yinjia Wang</h4>
+                        <p class="text-muted">Classification(ML-based Methods), Web Interface</p>
+                        <div class="btn btn-dark btn-social mx-2" aria-label="Email"><i class="fa-solid fa-envelope"></i></div>yinjia.wang@tum.de
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="{% static 'main_page/assets/img/team/zihan.jpg' %}" alt="..." />
+                        <h4>Zihan Xu</h4>
+                        <p class="text-muted">Segmentation, Web Interface</p>
+                        <div class="btn btn-dark btn-social mx-2" aria-label="Email"><i class="fa-solid fa-envelope"></i></div>zi_han.xu@tum.de
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-start">Copyright &copy; AMI 2023 Group 02</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+{% endblock  %}

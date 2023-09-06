@@ -1,0 +1,202 @@
+{% extends 'main_page/mp_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#page-top"><img src="{% static 'main_page/assets/img/Logo_of_the_Technical_University_of_Munich.svg' %}" alt="..." /></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars ms-1"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#header">Upload</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#portfolio">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/settings/">Settings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Masthead-->
+    <header class="h-masthead" id="header">
+        <!-- Background Video-->
+        <script src="{% static 'home/js/scripts.js' %}"></script>
+        <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="{% static 'home/assets/mp4/cell.mov' %}" type="video/mp4" /></video>
+        <!-- Masthead-->
+        <div class="masthead">
+            <div class="masthead-content text-white">
+                <div class="container-fluid px-4 px-lg-0">
+                    <h1 class="fst-italic lh-1 mb-4">CellAI<br>Explore the Future of Blood Cell Prediction</h1>
+                    <p class="mb-5">Revolutionizing healthcare with our AI-driven cell recognition tool, enhancing diagnostic accuracy for medical professionals.</p>
+                    <form id="contactForm" data-sb-form-api-token="API_TOKEN" action="/upload/" method="POST" enctype="multipart/form-data">
+                        <div class="row input-group-newsletter" style="margin-left: 0px; height: 58px;">
+                            <div class="col drop-zone">
+                                {% csrf_token %}
+                                {% if failed_upload %}
+                                <span class="drop-zone__prompt">Upload failed! Please upload again</span>
+                                {% else %}
+                                <span class="drop-zone__prompt">Drop file here or click to upload</span>
+                                {% endif %}
+                                <input type="file" name="file" class="drop-zone__input">
+                            </div>
+                            <div class="col-auto"><button id="submit-button" class="btn btn-primary" type="submit" onclick="loading(document.querySelector('.drop-zone'))" disabled>Upload</button></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Portfolio Grid-->
+    <section class="page-section bg-light" id="portfolio">
+        <div class="container">
+            <form id="contactForm" method="post">
+                <input type="hidden" id="inputField" name="inputField" value="{{ action }}">
+            <div class="row">
+                <div class="col-md-4 text-left">
+                    <h2 class="section-heading text-uppercase">Results Gallery</h2>
+                </div>
+                <div class="col-md-4 d-flex justify-content-end">
+                    {% csrf_token %}
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn btn-primary" style="width: 5rem; margin-bottom: 1rem;" onclick="sort_img()">SORT</button>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex justify-content-end">
+                    {% csrf_token %}
+                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                        <button class="btn btn-primary" style="flex: 1; margin-right: 0.5rem; margin-bottom: 1rem;" onclick="update()">UPDATE</button>
+                        <button class="btn btn-primary" style="flex: 1; margin-bottom: 1rem;" onclick="update_tr()">UPDATE & TRAINING</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="height: 2rem;"></div>
+            <div class="row">
+                {% for img_info in images_info %}
+                    <div class="col-lg-4 col-sm-6 mb-4 {% if forloop.counter > 6 %} d-none {% endif %}" >
+                        <!-- Portfolio item -->
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal{{ forloop.counter }}">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" src="{% static img_info.ori_ph %}" alt="..." />
+                            </a>
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading">Predicted Label: {{ img_info.label }}</div>
+                                <div class="portfolio-caption-subheading text-muted">Uncertainty: {{ img_info.uncertainty }}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% for img_info in images_info  %}
+            <div class="portfolio-modal modal fade" id="portfolioModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="close-modal" data-bs-dismiss="modal">
+                            <img src="{% static 'main_page/assets/img/close-icon.svg' %}" alt="Close modal" />
+                        </div>
+                        <div class="container-fluid row justify-content-center" style="padding-left: 0px; padding-right: 0px; margin-left: 0px; margin-right: 0px;">
+                                <div class="col-lg-10" style="padding-left: 0px; padding-right: 0px;">
+                                    <div class="modal-body">
+                                        <!-- details-->
+                                        <h2 class="text-uppercase">Details</h2>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <!-- original amplitude -->
+                                                <img class="img-fluid d-block mx-auto" src="{% static img_info.ori_amp %}" alt="..." />
+                                                <p class="image_title text-center font-weight-bold">Amplitude</p>
+                                                <!-- original phase -->
+                                                <img class="img-fluid d-block mx-auto" src="{% static img_info.ori_ph %}" alt="..." />
+                                                <p class="image_title text-center font-weight-bold">Phase</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <!-- heatmap image 1 -->
+                                                <img class="img-fluid d-block mx-auto" src="{% static img_info.cl_ph %}" alt="..." />
+                                                <p class="image_title text-center font-weight-bold">Preprocessing</p>
+                                                <!-- heatmap image 2 -->
+                                                <img class="img-fluid d-block mx-auto" src="{% static img_info.hm_ori %}" alt="..." />
+                                                <p class="image_title text-center font-weight-bold">Interpretation</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <!-- confusion matrix -->
+                                                <img class="img-fluid d-block mx-auto" src="{% static 'plots/confusion_matrix.png' %}" alt="..." />
+                                                <p class="image_title text-center font-weight-bold">Confusion Matrix</p>
+                                                <!-- weight distrubution -->
+                                                <img class="img-fluid d-block mx-auto" src="{% static 'plots/dataloader_dist.png' %}" alt="..." />
+                                                <p class="image_title text-center font-weight-bold">Data Distribution</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="container" style="height: 2rem;"></div>
+                                                <!-- result -->
+                                                <div class="container-fluid px-4 px-lg-0">
+                                                    <p class="image_title text-left text-muted" style="text-align: left;">Predicted Label: {{ img_info.label }}</p>
+                                                </div>
+                                                <div class="container" style="height: 0.5rem;"></div>
+                                                <div class="container-fluid px-4 px-lg-0">
+                                                    <p class="image_title text-left text-muted" style="text-align: left;">Uncertainty: {{ img_info.uncertainty }}</p>
+                                                </div>
+                                                <div class="container" style="height: 1rem;"></div>
+                                                <!-- weight distrubution -->
+                                                <div class="list-group" id="myList" role="tablist">
+                                                    <label class="list-group-item" style="text-align: left;">
+                                                        <input class="form-check-input me-1" type="checkbox" name="value" value="{{img_info.index}}_rbc">
+                                                        Red Blood Cells (rbc)
+                                                    </label>
+                                                    <label class="list-group-item" style="text-align: left;">
+                                                        <input class="form-check-input me-1" type="checkbox" name="value" value="{{img_info.index}}_wbc">
+                                                        White Blood Cells (wbc)
+                                                    </label>
+                                                    <label class="list-group-item" style="text-align: left;">
+                                                        <input class="form-check-input me-1" type="checkbox" name="value" value="{{img_info.index}}_plt">
+                                                        Platelets (plt)
+                                                    </label>
+                                                    <label class="list-group-item" style="text-align: left;">
+                                                        <input class="form-check-input me-1" type="checkbox" name="value" value="{{img_info.index}}_agg">
+                                                        Aggregation (agg)
+                                                    </label>
+                                                    <label class="list-group-item" style="text-align: left;">
+                                                        <input class="form-check-input me-1" type="checkbox" name="value" value="{{img_info.index}}_oof">
+                                                        Out Of Focus (oof)
+                                                    </label>
+                                                </div>
+
+                                                <div class="container" style="height: 2.5rem;"></div>
+                                                <button class="btn btn-primary mt-auto" data-bs-dismiss="modal" type="button" style="width: 100%;">FINISH</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+            </form>
+            <div class="d-flex justify-content-center"> 
+                <button class="btn btn-primary btn-xl text-uppercase" id="show-more-button">Show More</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-start" style="color: white;">Copyright &copy; AMI 2023 Group 02</div>
+                <div class="col-lg-4 my-3 my-lg-0"></div>
+            </div>
+        </div>
+    </footer>
+    <!-- Portfolio Modals-->
+    <!-- Portfolio item 1 modal popup-->
+
+    <script src="{% static 'main_page/js/show_more.js' %}"></script>
+    
+{% endblock  %}
