@@ -1,0 +1,11 @@
+Django==4.1
+h5py==3.7.0
+matplotlib==3.7.1
+numpy==1.25.0
+opencv_python_headless==4.8.0.74
+Pillow==9.4.0
+Pillow==10.0.0
+scikit_learn==1.2.2
+torch==2.0.1
+torchvision==0.15.2
+tqdm==4.65.0

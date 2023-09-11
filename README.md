@@ -5,6 +5,78 @@ It is the repository of the final project for Applied Machine Intelligence (SS23
 ## Introduction
 This project aims to help clinicians to identify blood cell types. The main functions are segmentation, classification and active learning.
 
+## Folder Structure
+
+```bash
+.
+├── ami
+│   ├── asgi.py
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── assets
+├── db.sqlite3
+├── home
+│   ├── admin.py
+│   ├── apps.py
+│   ├── __init__.py
+│   ├── migrations
+│   ├── models.py
+│   ├── tests.py
+│   ├── utils.py
+│   └── views.py
+├── main_page
+│   ├── admin.py
+│   ├── apps.py
+│   ├── change_label.py
+│   ├── __init__.py
+│   ├── migrations
+│   ├── models.py
+│   ├── plot_prediction.py
+│   ├── tests.py
+│   └── views.py
+├── manage.py
+├── model
+│   ├── inputs
+│   │   ├── a_learning
+│   │   ├── prediction
+│   │   └── training
+│   ├── main.py
+│   ├── outputs
+│   │   ├── checkpoints
+│   │   └── logs
+│   ├── settings
+│   │   └── settings.npy
+│   └── src
+│       ├── dataset.py
+│       ├── model.py
+│       ├── optimizer.py
+│       └── utils
+├── README.md
+├── requirements.txt
+├── static
+│   ├── home
+│   │   ├── assets
+│   │   ├── css
+│   │   └── js
+│   ├── main_page
+│   │   ├── assets
+│   │   ├── css
+│   │   └── js
+│   └── plots
+└── templates
+    ├── home
+    │   ├── index.html
+    │   ├── prediction.html
+    │   └── training.html
+    └── main_page
+        ├── about.html
+        ├── main_page.html
+        ├── mp_base.html
+        └── settings.html
+```
+
 ## Requirements
 
 This project requires Python 3.9 or higher and uses the following Python packages:
@@ -19,22 +91,12 @@ This project requires Python 3.9 or higher and uses the following Python package
 - tqdm
 - h5py
 
-## User's Guide
-> :computer: : work for **Windows**, **Linux** and **macOS**
->
+## Installation
 
 To install the necessary packages, use pip:
 
 ```bash
-pip install torch
-pip install torchvision
-pip install scikit-learn
-pip install numpy
-pip install matlabplot
-pip install django
-pip install opencv-python-headless
-pip install tqdm
-pip install h5py
+pip install -r requirements.txt
 ```
 
 ## My contribution
@@ -65,6 +127,14 @@ Due to the size limitation of labeled dataset, active learning is integrated in 
 To enhance the interpretability of the model, I employ [Grad-CAM](./model/src/utils/grad_cam.py)(Gradient-weighted Class Activation Mapping), a technique which uses the gradient information flowing into the last convolutional layer of the model to produce a coarse localization map highlighting the important regions in the image for predicting the target class. The Grad-CAM visualization is shown below.
 
 ![Gradcam](assets/grad_cam.png)
+
+### TODO List
+
+- [x] Add requirements.txt
+- [ ] Allow jpg/png images as input
+- [ ] Add more models
+- [ ] Build dockerfile
+- [ ] Deploy the website on AWS
 
 ## Local Version
 
